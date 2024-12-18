@@ -7,12 +7,12 @@ exports.register = async (req, res, next) => {
     const { email, password } = req.body;
 
     // Validate input data
-    if (!email || !password) {
+    if (!Email || !Password) {
       return res.status(400).json({ status: false, error: "Email and password are required" });
     }
 
     // Check if the user already exists
-    const existingUser = await UserService.checkUser(email);
+    const existingUser = await UserService.checkUser(Email);
     if (existingUser) {
       return res.status(400).json({ status: false, error: "User already exists" });
     }
@@ -33,27 +33,27 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
+    const { Email, Password } = req.body;
 
     // Validate input data
-    if (!email || !password) {
+    if (!Email || !Password) {
       return res.status(400).json({ status: false, error: "Email and password are required" });
     }
 
     // Check if the user exists
-    const user = await UserService.checkUser(email);
+    const user = await UserService.checkUser(Email);
     if (!user) {
       return res.status(404).json({ status: false, error: "User not found" });
     }
 
     // Compare the password
-    const isMatch = await bcrypt.compare(password, user.password); // Compare hashed passwords
+    const isMatch = await bcrypt.compare(Password, user.Password); // Compare hashed passwords
     if (!isMatch) {
       return res.status(401).json({ status: false, error: "Invalid credentials" });
     }
 
     // Generate a JWT token
-    const tokenData = { id: user.id, email: user.email };
+    const tokenData = { UserId: user.UserId, Email: user.Email };
     const token = await UserService.generateToken(tokenData, "secretkey", "1h");
 
     res.status(200).json({ status: true, token: token });

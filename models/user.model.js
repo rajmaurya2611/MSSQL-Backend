@@ -2,7 +2,7 @@ const sql = require("mssql");
 const bcrypt = require("bcrypt");
 
 // SQL Server table name
-const tableName = "users";
+const tableName = "Users";
 
 // Function to create a new user
 async function createUser(email, password) {
@@ -45,14 +45,14 @@ async function createUser(email, password) {
 
 
 // Function to find a user by email
-async function findUserByEmail(email) {
+async function findUserByEmail(Email) {
   try {
-    console.log("Searching for user with email:", email);  // Log the email
+    console.log("Searching for user with email:", Email);  // Log the email
     const pool = await sql.connect(require("../config/db"));
     const result = await pool
       .request()
-      .input("email", sql.VarChar, email)
-      .query(`SELECT * FROM ${tableName} WHERE email = @email`);
+      .input("Email", sql.VarChar, Email)
+      .query(`SELECT * FROM ${tableName} WHERE Email = @Email`);
 
     return result.recordset[0]; // Return the first matched user or undefined
   } catch (err) {

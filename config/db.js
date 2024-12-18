@@ -1,13 +1,15 @@
+require("dotenv").config(); // Load environment variables from .env file
 const sql = require("mssql");
 
+// Read database configuration from environment variables
 const config = {
-  user: "sa", // Your SQL Server username
-  password: "Mtsl@123", // Your SQL Server password
-  server: "7193RAJMAU4136L", // Your SQL Server server
-  database: "testdb2", // Your SQL Server database name
+  user: process.env.DB_USER, // SQL Server username
+  password: process.env.DB_PASSWORD, // SQL Server password
+  server: process.env.DB_SERVER, // SQL Server server
+  database: process.env.DB_DATABASE, // SQL Server database name
   options: {
-    encrypt: false, // Set to true for Azure, false for local connections
-    trustServerCertificate: true, // Change to true for development environments
+    encrypt: process.env.DB_ENCRYPT === "true", // Convert to boolean
+    trustServerCertificate: process.env.DB_TRUST_SERVER_CERT === "true", // Convert to boolean
   },
 };
 
@@ -16,8 +18,7 @@ let pool;
 // Initialize connection pool
 async function initializePool() {
   try {
-    // Create a connection pool and keep it open
-    pool = await sql.connect(config);
+    pool = await sql.connect(config); // Create connection pool
     console.log("SQL Server connection pool initialized.");
   } catch (err) {
     console.error("Error initializing connection pool:", err);
@@ -41,8 +42,7 @@ async function queryDatabase() {
 
 // Call initializePool once when your app starts
 initializePool().then(() => {
-  // Once the pool is initialized, you can query the database
-  queryDatabase();
+  queryDatabase(); // Query the database after initialization
 });
 
 // Gracefully close the connection pool during shutdown
