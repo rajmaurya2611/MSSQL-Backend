@@ -3,15 +3,15 @@ const jwt = require("jsonwebtoken");
 
 class UserService {
   // Register a new user
-  static async registerUser(email, password) {
+  static async registerUser(Email, Password) {
     try {
-      // Validate the email and password format (Basic example)
-      if (!email || !password) {
-        throw new Error("Email and password are required");
+      // Validate the Email and Password format (Basic example)
+      if (!Email || !Password) {
+        throw new Error("Email and Password are required");
       }
 
       // Use the createUser function from the user model
-      const userCreated = await UserModel.createUser(email, password);
+      const userCreated = await UserModel.createUser(Email, Password);
       if (!userCreated) {
         throw new Error("Failed to create user in database");
       }
@@ -23,14 +23,14 @@ class UserService {
     }
   }
 
-  // Check if a user exists by email
-  static async checkUser(email) {
+  // Check if a user exists by Email
+  static async checkUser(Email) {
     try {
-      if (!email) {
+      if (!Email) {
         throw new Error("Email is required to check for an existing user");
       }
 
-      const user = await UserModel.findUserByEmail(email); // Find user by email
+      const user = await UserModel.findUserByEmail(Email); // Find user by Email
       return user;  // Return the user object or null/undefined if not found
     } catch (err) {
       console.error("Error checking user:", err);

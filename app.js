@@ -2,6 +2,11 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const userRouter = require("./routes/user.router");
+const cookieParser = require("cookie-parser");
+
+// Use cookie-parser middleware
+
+
 
 const app = express();
 
@@ -17,6 +22,7 @@ app.use(
 
 // Middleware to parse JSON requests
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // Mount user routes
 app.use("/", userRouter); // Use "/api" as prefix for all user routes
